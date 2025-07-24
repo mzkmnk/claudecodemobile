@@ -4,23 +4,53 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository Overview
 
-This is a minimal repository called "claudecodemobile" that currently contains only a basic README.md file. The repository appears to be in its initial state with no source code, build configuration, or development tooling set up yet.
+Claude Code Mobile - AndroidデバイスでClaude Codeをローカル実行するためのモバイルアプリケーション。React Native + Termux連携により、モバイルでの本格的なAI支援開発を実現します。
 
 ## Current State
 
-- The repository is empty except for a README.md file
-- No package.json, build tools, or development dependencies are configured
-- No source code structure exists yet
-- No testing framework or linting tools are set up
+- 調査フェーズ完了、実装計画策定済み
+- Android版にフォーカスした開発を開始予定
+- React Native + Hermes + Termux連携アーキテクチャ
+- 詳細な実装計画は `.claude/plan/` ディレクトリ参照
 
-## Development Notes
+## Project Structure
 
-Since this is a new/empty repository, development commands and architecture will need to be established as the project grows. When files are added, this CLAUDE.md should be updated to reflect:
+```
+claudecodemobile/
+├── .claude/
+│   ├── plan/              # 実装計画書
+│   │   ├── android-implementation-plan.md
+│   │   ├── development-roadmap.md
+│   │   └── technical-decisions.md
+│   └── research/          # 調査結果
+├── src/                   # (予定) React Nativeソースコード
+├── android/               # (予定) Androidネイティブコード
+└── README.md
+```
 
-- Build and development commands
-- Project structure and architecture
-- Testing and linting procedures
-- Any specific development workflows
+## Development Commands (予定)
+
+```bash
+# 開発環境起動
+npm start
+
+# Android実行
+npm run android
+
+# テスト実行
+npm test
+
+# ビルド
+npm run build:android
+```
+
+## Key Technologies
+
+- **Frontend**: React Native + Hermes
+- **State Management**: Zustand
+- **Terminal UI**: xterm.js + WebView
+- **Native Integration**: Kotlin Native Modules
+- **Backend**: Termux (ローカル実行環境)
 
 ## Language Settings / 言語設定
 
