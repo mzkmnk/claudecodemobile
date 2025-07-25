@@ -8,10 +8,10 @@ Claude Code Mobile - AndroidデバイスでClaude Codeをローカル実行す�
 
 ## Current State
 
-- 調査フェーズ完了、実装計画策定済み
-- Android版にフォーカスした開発を開始予定
-- React Native + Hermes + Termux連携アーキテクチャ
-- 詳細な実装計画は `.claude/plan/` ディレクトリ参照
+- React Native基盤実装完了
+- タブナビゲーション、ターミナルUI実装済み
+- Termux連携はモックモードで動作中
+- 次のフェーズ: Native Module実装とTermux実際の連携
 
 ## Project Structure
 
@@ -23,34 +23,120 @@ claudecodemobile/
 │   │   ├── development-roadmap.md
 │   │   └── technical-decisions.md
 │   └── research/          # 調査結果
-├── src/                   # (予定) React Nativeソースコード
-├── android/               # (予定) Androidネイティブコード
-└── README.md
+├── src/                   # React Nativeソースコード
+│   ├── components/        # UIコンポーネント
+│   ├── screens/          # 画面コンポーネント
+│   ├── services/         # ビジネスロジック
+│   ├── stores/           # 状態管理
+│   ├── hooks/            # カスタムフック
+│   ├── types/            # 型定義
+│   └── navigation/       # ナビゲーション
+├── android/              # Androidネイティブコード
+└── App.tsx              # エントリーポイント
 ```
 
-## Development Commands (予定)
+## Development Commands
 
 ```bash
 # 開発環境起動
 npm start
 
-# Android実行
+# Android実行（エミュレーター起動後）
 npm run android
+
+# リント実行
+npm run lint
 
 # テスト実行
 npm test
 
-# ビルド
-npm run build:android
+# ビルドクリーン
+cd android && ./gradlew clean
 ```
 
 ## Key Technologies
 
-- **Frontend**: React Native + Hermes
-- **State Management**: Zustand
-- **Terminal UI**: xterm.js + WebView
-- **Native Integration**: Kotlin Native Modules
-- **Backend**: Termux (ローカル実行環境)
+- **Frontend**: React Native 0.80.2 + Hermes
+- **State Management**: Zustand 5.0.6
+- **Navigation**: React Navigation 7
+- **Terminal UI**: xterm.js + react-native-webview
+- **Native Integration**: Kotlin Native Modules（実装予定）
+- **Backend**: Termux（ローカル実行環境）
+- **Testing**: Jest（Vitestへの移行検討中）
+
+## コーディング規約
+
+### 型安全性
+- **any型の使用禁止**: 型安全性を保つため、`any`型は一切使用しない
+  - ❌ `const data: any = response`
+  - ✅ `const data: ResponseData = response`
+  - どうしても型が不明な場合は`unknown`を使用し、型ガードで絞り込む
+- **型推論の活用**: 明示的な型注釈は必要な場合のみ
+- **strictモード**: TypeScriptのstrictモードを常に有効にする
+
+### 単一責任の原則
+- **1関数1つの責務**: 各関数は単一の明確な責任を持つこと
+- **1ファイル1関数/クラス**: 各ファイルには1つの主要な関数またはクラスのみを含めること
+- **バレルインポート禁止**: `index.ts`などを使った再エクスポートは行わない
+  - ❌ `export * from './types'` 
+  - ✅ `import { SpecificType } from './types/SpecificType'`
+
+### ファイル構成例
+```typescript
+// ❌ 悪い例: 複数の責務を持つファイル
+// src/utils/index.ts
+export function validateEmail() { ... }
+export function formatDate() { ... }
+export function parseJson() { ... }
+
+// ✅ 良い例: 単一責務のファイル
+// src/utils/validateEmail.ts
+export function validateEmail(email: string): boolean {
+  // 単一の責務: メールアドレスの検証
+}
+
+// src/utils/formatDate.ts  
+export function formatDate(date: Date): string {
+  // 単一の責務: 日付のフォーマット
+}
+```
+
+### テスト駆動開発（TDD）
+[t-wada](https://github.com/twada)が推奨するTDDプラクティスに従う：
+
+1. **Red**: 失敗するテストを最初に書く
+2. **Green**: テストを通す最小限のコードを実装
+3. **Refactor**: コードをリファクタリング
+
+#### TDDサイクル例
+```typescript
+// 1. Red: 失敗するテストを書く
+// src/utils/__tests__/validateEmail.test.ts
+import { validateEmail } from '../validateEmail';
+
+describe('validateEmail', () => {
+  it('正しいメールアドレスを検証する', () => {
+    expect(validateEmail('test@example.com')).toBe(true);
+  });
+});
+
+// 2. Green: 最小限の実装
+// src/utils/validateEmail.ts
+export function validateEmail(email: string): boolean {
+  return email.includes('@');
+}
+
+// 3. Refactor: 実装を改善
+export function validateEmail(email: string): boolean {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}
+```
+
+### テストの命名規則
+- テストファイル: `{対象ファイル名}.test.ts`
+- テストの説明: 日本語で期待される振る舞いを記述
+- `it('〜すること')` の形式で記述
 
 ## Language Settings / 言語設定
 
