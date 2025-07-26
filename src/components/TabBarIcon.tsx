@@ -1,5 +1,5 @@
 import React from 'react';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import Icon from '@react-native-vector-icons/material-icons';
 
 interface TabBarIconProps {
   route: { name: string };
@@ -8,24 +8,21 @@ interface TabBarIconProps {
 }
 
 export const TabBarIcon: React.FC<TabBarIconProps> = ({ route, color, size }) => {
-  let iconName: string;
 
-  switch (route.name) {
-    case 'Terminal':
-      iconName = 'terminal';
-      break;
-    case 'Files':
-      iconName = 'folder';
-      break;
-    case 'Git':
-      iconName = 'source';
-      break;
-    case 'Settings':
-      iconName = 'settings';
-      break;
-    default:
-      iconName = 'help';
+  const getIconName = (routeName: string): 'terminal' | 'folder' | 'source' | 'settings' | 'help' => {
+    switch (routeName) {
+      case 'Terminal':
+        return 'terminal';
+      case 'Files':
+        return 'folder';
+      case 'Git':
+        return 'source';
+      case 'Settings':
+        return 'settings';
+      default:
+        return 'help';
+    }
   }
 
-  return <Icon name={iconName} size={size} color={color} />;
+  return <Icon name={getIconName(route.name)} size={size} color={color} />;
 };
