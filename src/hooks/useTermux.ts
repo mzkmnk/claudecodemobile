@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useClaudeStore } from '../stores/useClaudeStore';
 import TermuxService from '../services/TermuxService';
-import { ClaudeMessage, ClaudeSession } from '../types';
+import { ClaudeMessage, ClaudeSession, TermuxMessage } from '../types';
 
 export const useTermux = () => {
   const {
