@@ -1,3 +1,5 @@
+/* eslint-env jest */
+
 // グローバルモック設定
 global.__DEV__ = true;
 
@@ -16,7 +18,6 @@ jest.mock('react-native-webview', () => {
 
 // Safe Area Contextのモック
 jest.mock('react-native-safe-area-context', () => {
-  const React = require('react');
   return {
     SafeAreaProvider: ({ children }) => children,
     SafeAreaView: ({ children }) => children,
@@ -43,7 +44,6 @@ jest.mock('@react-navigation/native', () => {
 
 // Bottom Tabsのモック
 jest.mock('@react-navigation/bottom-tabs', () => {
-  const React = require('react');
   return {
     createBottomTabNavigator: () => ({
       Navigator: ({ children }) => children,
