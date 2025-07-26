@@ -22,19 +22,41 @@ export function TermuxIntentTest() {
     try {
       addLog('Termuxアプリを起動しています...');
       
-      // Termuxのパッケージ名
-      const termuxPackage = 'com.termux';
-      const url = `intent:#Intent;package=${termuxPackage};end`;
+      // 複数の起動方法を試す
+      const termuxUrls = [
+        'com.termux://launch',
+        'intent:#Intent;package=com.termux;end',
+        'intent://com.termux#Intent;scheme=android-app;end',
+        'intent:#Intent;component=com.termux/.app.TermuxActivity;end'
+      ];
       
-      const canOpen = await Linking.canOpenURL(url);
-      if (canOpen) {
-        await Linking.openURL(url);
-        addLog('Termuxアプリの起動に成功しました');
-      } else {
+      let launched = false;
+      for (const url of termuxUrls) {
+        addLog(`試行中: ${url}`);
+        try {
+          const canOpen = await Linking.canOpenURL(url);
+          addLog(`canOpenURL(${url}): ${canOpen}`);
+          
+          if (canOpen) {
+            await Linking.openURL(url);
+            addLog('Termuxアプリの起動に成功しました');
+            launched = true;
+            break;
+          }
+        } catch (e) {
+          addLog(`失敗: ${e}`);
+        }
+      }
+      
+      if (!launched) {
         addLog('エラー: Termuxアプリがインストールされていません');
         Alert.alert(
           'Termuxが見つかりません',
-          'Termuxアプリをインストールしてください',
+          'Termuxアプリをインストールしてください\n\n' +
+          'エミュレーターの場合:\n' +
+          '1. F-Droidからダウンロード\n' +
+          '2. adb install termux.apk\n' +
+          '3. エミュレーターを再起動',
         );
       }
     } catch (error) {
