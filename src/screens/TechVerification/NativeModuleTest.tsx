@@ -19,7 +19,6 @@ interface TestResult {
 
 export function NativeModuleTest() {
   const [results, setResults] = useState<TestResult[]>([]);
-  const [isCreatingModule, setIsCreatingModule] = useState(false);
 
   const addResult = (test: string, result: string, success: boolean) => {
     setResults(prev => [{
@@ -68,8 +67,6 @@ export function NativeModuleTest() {
   };
 
   const showModuleCreationGuide = () => {
-    setIsCreatingModule(true);
-    
     const kotlinCode = `
 // android/app/src/main/java/com/claudecodemobile/TestModule.kt
 package com.claudecodemobile

@@ -10,7 +10,8 @@ const esModules = [
   'react-native-screens',
   'react-native-webview',
   'react-native-vector-icons',
-  '@react-native-vector-icons'
+  '@react-native-vector-icons',
+  'react-native-gesture-handler'
 ].join('|');
 
 const config: Config = {
