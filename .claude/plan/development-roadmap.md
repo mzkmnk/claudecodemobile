@@ -26,11 +26,11 @@
 - [x] エミュレータ/実機準備
 
 ### 0.2 技術検証
-- [ ] Termux連携の基本動作確認
-  - [ ] Intent経由での起動
-  - [ ] コマンド実行テスト
-- [ ] xterm.js WebView統合テスト
-- [ ] Native Module作成練習
+- [x] Termux連携の基本動作確認
+  - [x] Intent経由での起動
+  - [x] コマンド実行テスト
+- [x] xterm.js WebView統合テスト
+- [x] Native Module作成練習
 
 ### 0.3 プロトタイプ作成
 - [ ] 最小構成のアプリ作成
