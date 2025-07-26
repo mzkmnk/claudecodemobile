@@ -52,6 +52,19 @@ jest.mock('@react-navigation/bottom-tabs', () => {
   };
 });
 
+// Stackのモック
+jest.mock('@react-navigation/stack', () => {
+  return {
+    createStackNavigator: () => ({
+      Navigator: ({ children }) => children,
+      Screen: ({ children }) => children,
+    }),
+    CardStyleInterpolators: {},
+    HeaderStyleInterpolators: {},
+    TransitionPresets: {},
+  };
+});
+
 // AsyncStorageのモック
 jest.mock('@react-native-async-storage/async-storage', () => ({
   setItem: jest.fn(() => Promise.resolve()),
@@ -62,4 +75,42 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
   multiGet: jest.fn(() => Promise.resolve([])),
   multiSet: jest.fn(() => Promise.resolve()),
   multiRemove: jest.fn(() => Promise.resolve()),
+}));
+
+// Gesture Handlerのモック
+jest.mock('react-native-gesture-handler', () => {
+  const View = require('react-native/Libraries/Components/View/View');
+  return {
+    Swipeable: View,
+    DrawerLayout: View,
+    State: {},
+    ScrollView: View,
+    Slider: View,
+    Switch: View,
+    TextInput: View,
+    ToolbarAndroid: View,
+    ViewPagerAndroid: View,
+    DrawerLayoutAndroid: View,
+    WebView: View,
+    NativeViewGestureHandler: View,
+    TapGestureHandler: View,
+    FlingGestureHandler: View,
+    ForceTouchGestureHandler: View,
+    LongPressGestureHandler: View,
+    PanGestureHandler: View,
+    PinchGestureHandler: View,
+    RotationGestureHandler: View,
+    RawButton: View,
+    BaseButton: View,
+    RectButton: View,
+    BorderlessButton: View,
+    FlatList: View,
+    gestureHandlerRootHOC: jest.fn(),
+    Directions: {},
+  };
+});
+
+// React Native Screensのモック
+jest.mock('react-native-screens', () => ({
+  enableScreens: jest.fn(),
 }));

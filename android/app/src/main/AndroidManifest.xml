@@ -1,6 +1,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    
+    <!-- Termux起動用のクエリ権限 (Android 11+) -->
+    <queries>
+        <package android:name="com.termux" />
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="com.termux" />
+        </intent>
+    </queries>
 
     <application
       android:name=".MainApplication"
