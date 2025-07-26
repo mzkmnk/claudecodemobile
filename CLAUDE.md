@@ -150,3 +150,23 @@ export function validateEmail(email: string): boolean {
 - ✅ 「TypeScriptの型定義を追加しました」
 - ❌ "I've created a new component"
 - ❌ "Added TypeScript type definitions"
+
+## Pull Request Guidelines / PR作成ガイドライン
+
+**IMPORTANT**: このプロジェクトでは、すべてのPull Requestは必ずDraftとして作成してください。
+
+### PR作成時のルール:
+- 必ず `gh pr create --draft` を使用すること
+- PRタイトルは日本語で記述
+- PR本文も日本語で記述（技術用語は英語OK）
+
+### 例:
+```bash
+gh pr create --draft --title "feat: Termux Native Module実装" --body "## 概要
+Termux連携のためのNative Module実装
+
+## 変更内容
+- TermuxModule.ktの実装
+- JavaScript側のブリッジ追加
+- テストコード追加"
+```
